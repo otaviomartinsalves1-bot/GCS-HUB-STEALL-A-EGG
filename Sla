@@ -1,6 +1,6 @@
 -- ============================================
--- PAINEL DE LOGIN - Steall a EGG | Blann | infinit_zx7
--- Key: 777
+-- PAINEL DE LOGIN - Steall a EGG | Blann | infinity_zx7
+-- Key: key23
 -- ============================================
 
 local Players = game:GetService("Players")
