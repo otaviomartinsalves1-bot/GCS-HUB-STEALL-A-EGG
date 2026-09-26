@@ -1,0 +1,237 @@
+-- ============================================
+-- PAINEL DE LOGIN - Steall a EGG | Blann | infinit_zx7
+-- Key: 777
+-- ============================================
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Remove painel antigo, se existir
+local oldGui = playerGui:FindFirstChild("SteallEGG_KeySystem")
+if oldGui then oldGui:Destroy() end
+
+-- Criar ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "SteallEGG_KeySystem"
+screenGui.ResetOnSpawn = false
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.Parent = playerGui
+
+-- Frame Principal
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 420, 0, 320)
+mainFrame.Position = UDim2.new(0.5, -210, 0.5, -160)
+mainFrame.BackgroundColor3 = Color3.fromRGB(45, 25, 65) -- Roxo escuro
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+-- Gradiente Roxo Escuro -> Roxo Claro
+local gradient = Instance.new("UIGradient")
+gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(45, 25, 65)),   -- Roxo escuro
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(75, 45, 110)), -- Roxo médio
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(130, 90, 180))   -- Roxo claro
+})
+gradient.Rotation = 45
+gradient.Parent = mainFrame
+
+-- Cantos arredondados
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 14)
+corner.Parent = mainFrame
+
+-- Borda brilhante
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(160, 110, 220)
+stroke.Thickness = 2
+stroke.Transparency = 0.3
+stroke.Parent = mainFrame
+
+-- ===== TÍTULO =====
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Name = "Title"
+titleLabel.Size = UDim2.new(1, -30, 0, 70)
+titleLabel.Position = UDim2.new(0, 15, 0, 15)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Steall a EGG | Blann | infinit_zx7"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextScaled = true
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextWrapped = true
+titleLabel.Parent = mainFrame
+
+-- ===== SUBTÍTULO =====
+local subtitleLabel = Instance.new("TextLabel")
+subtitleLabel.Name = "Subtitle"
+subtitleLabel.Size = UDim2.new(1, -30, 0, 25)
+subtitleLabel.Position = UDim2.new(0, 15, 0, 85)
+subtitleLabel.BackgroundTransparency = 1
+subtitleLabel.Text = "Insira sua Key para continuar"
+subtitleLabel.TextColor3 = Color3.fromRGB(200, 180, 230)
+subtitleLabel.TextScaled = true
+subtitleLabel.Font = Enum.Font.Gotham
+subtitleLabel.Parent = mainFrame
+
+-- ===== CAIXA DE TEXTO (KEY) =====
+local keyBox = Instance.new("TextBox")
+keyBox.Name = "KeyBox"
+keyBox.Size = UDim2.new(1, -60, 0, 50)
+keyBox.Position = UDim2.new(0, 30, 0, 125)
+keyBox.BackgroundColor3 = Color3.fromRGB(30, 15, 45)
+keyBox.BorderSizePixel = 0
+keyBox.Text = ""
+keyBox.PlaceholderText = "Coloque sua Key aqui..."
+keyBox.PlaceholderColor3 = Color3.fromRGB(150, 130, 180)
+keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyBox.TextSize = 20
+keyBox.Font = Enum.Font.GothamMedium
+keyBox.ClearTextOnFocus = false
+keyBox.Parent = mainFrame
+
+local keyCorner = Instance.new("UICorner")
+keyCorner.CornerRadius = UDim.new(0, 10)
+keyCorner.Parent = keyBox
+
+local keyStroke = Instance.new("UIStroke")
+keyStroke.Color = Color3.fromRGB(100, 70, 140)
+keyStroke.Thickness = 1.5
+keyStroke.Transparency = 0.3
+keyStroke.Parent = keyBox
+
+-- ===== BOTÃO DE VALIDAR =====
+local validateBtn = Instance.new("TextButton")
+validateBtn.Name = "ValidateBtn"
+validateBtn.Size = UDim2.new(1, -60, 0, 50)
+validateBtn.Position = UDim2.new(0, 30, 0, 190)
+validateBtn.BackgroundColor3 = Color3.fromRGB(120, 80, 200)
+validateBtn.BorderSizePixel = 0
+validateBtn.Text = "VALIDAR KEY"
+validateBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+validateBtn.TextSize = 20
+validateBtn.Font = Enum.Font.GothamBold
+validateBtn.Parent = mainFrame
+
+local btnCorner = Instance.new("UICorner")
+btnCorner.CornerRadius = UDim.new(0, 10)
+btnCorner.Parent = validateBtn
+
+local btnStroke = Instance.new("UIStroke")
+btnStroke.Color = Color3.fromRGB(180, 140, 240)
+btnStroke.Thickness = 1.5
+btnStroke.Transparency = 0.2
+btnStroke.Parent = validateBtn
+
+-- ===== BOTÃO FECHAR (X) =====
+local closeBtn = Instance.new("TextButton")
+closeBtn.Name = "CloseBtn"
+closeBtn.Size = UDim2.new(0, 32, 0, 32)
+closeBtn.Position = UDim2.new(1, -40, 0, 8)
+closeBtn.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
+closeBtn.BorderSizePixel = 0
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.TextSize = 18
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.Parent = mainFrame
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(1, 0)
+closeCorner.Parent = closeBtn
+
+-- ===== MENSAGEM DE STATUS =====
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Name = "StatusLabel"
+statusLabel.Size = UDim2.new(1, -30, 0, 25)
+statusLabel.Position = UDim2.new(0, 15, 0, 255)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = ""
+statusLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+statusLabel.TextScaled = true
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.Parent = mainFrame
+
+-- ===== TWEEN DE ANIMAÇÃO =====
+local function animateColor(obj, targetColor, duration)
+    local tween = TweenService:Create(obj, TweenInfo.new(duration or 0.3, Enum.EasingStyle.Quad), { BackgroundColor3 = targetColor })
+    tween:Play()
+end
+
+local function animateStrokeColor(obj, targetColor, duration)
+    local tween = TweenService:Create(obj, TweenInfo.new(duration or 0.3, Enum.EasingStyle.Quad), { Color = targetColor })
+    tween:Play()
+end
+
+-- ===== LÓGICA DE VALIDAÇÃO =====
+local KEY_CORRETA = "777"
+
+validateBtn.MouseButton1Click:Connect(function()
+    local enteredKey = keyBox.Text
+
+    if enteredKey == KEY_CORRETA then
+        -- SUCESSO: Verde
+        statusLabel.Text = "Key correta! Carregando script..."
+        statusLabel.TextColor3 = Color3.fromRGB(80, 255, 120)
+
+        -- Animação para verde
+        animateColor(keyBox, Color3.fromRGB(20, 80, 40), 0.4)
+        animateStrokeColor(keyStroke, Color3.fromRGB(80, 255, 120), 0.4)
+        animateColor(validateBtn, Color3.fromRGB(40, 180, 80), 0.4)
+        animateStrokeColor(btnStroke, Color3.fromRGB(80, 255, 120), 0.4)
+
+        -- Espera um pouco e executa o script
+        task.wait(1.2)
+
+        -- Fecha o painel
+        screenGui:Destroy()
+
+        -- Executa o script que você enviou
+        loadstring(game:HttpGet("https://pastefy.app/Gw4ebySs/raw"))()
+
+    else
+        -- ERRO: Vermelho
+        statusLabel.Text = "Key incorreta! Tente novamente."
+        statusLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+
+        -- Animação para vermelho
+        animateColor(keyBox, Color3.fromRGB(100, 20, 20), 0.4)
+        animateStrokeColor(keyStroke, Color3.fromRGB(255, 80, 80), 0.4)
+        animateColor(validateBtn, Color3.fromRGB(180, 40, 40), 0.4)
+        animateStrokeColor(btnStroke, Color3.fromRGB(255, 80, 80), 0.4)
+
+        -- Volta à cor original depois de 1.5 segundos
+        task.wait(1.5)
+        animateColor(keyBox, Color3.fromRGB(30, 15, 45), 0.5)
+        animateStrokeColor(keyStroke, Color3.fromRGB(100, 70, 140), 0.5)
+        animateColor(validateBtn, Color3.fromRGB(120, 80, 200), 0.5)
+        animateStrokeColor(btnStroke, Color3.fromRGB(180, 140, 240), 0.5)
+
+        -- Limpa o campo
+        keyBox.Text = ""
+    end
+end)
+
+-- ===== FECHAR PAINEL =====
+closeBtn.MouseButton1Click:Connect(function()
+    -- Animação de saída
+    local fadeOut = TweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {
+        BackgroundTransparency = 1
+    })
+    fadeOut:Play()
+
+    TweenService:Create(stroke, TweenInfo.new(0.25), { Transparency = 1 }):Play()
+    TweenService:Create(titleLabel, TweenInfo.new(0.25), { TextTransparency = 1 }):Play()
+    TweenService:Create(subtitleLabel, TweenInfo.new(0.25), { TextTransparency = 1 }):Play()
+    TweenService:Create(keyBox, TweenInfo.new(0.25), { BackgroundTransparency = 1, TextTransparency = 1 }):Play()
+    TweenService:Create(validateBtn, TweenInfo.new(0.25), { BackgroundTransparency = 1, TextTransparency = 1 }):Play()
+    TweenService:Create(statusLabel, TweenInfo.new(0.25), { TextTransparency = 1 }):Play()
+
+    task.wait(0.3)
+    screenGui:Destroy()
+end)
+
+print("[Steall a EGG] Painel de Key carregado com sucesso!")
